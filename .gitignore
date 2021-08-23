@@ -1,0 +1,11 @@
+# folders
+dist/
+.settings/
+target/
+.idea/
+
+# files
+.DS_Store
+.project
+.classpath
+*.bak
