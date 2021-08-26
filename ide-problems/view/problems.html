@@ -69,6 +69,7 @@
         <table class="table table-striped" ng-cloak>
             <thead>
             <tr>
+                <th><input type="checkbox" ng-model="selectAll" ng-click="checkAll()"></th>
                 <th>Status</th>
                 <th>Location</th>
                 <th>Type</th>
@@ -82,11 +83,11 @@
                 <th>Creator</th>
                 <th>Created</th>
                 <th>Program</th>
-                <th><input type="checkbox" ng-model="selectAll" ng-click="checkAll()"></th>
             </tr>
             </thead>
             <tbody>
             <tr ng-repeat="next in problemsList">
+                <td><input type="checkbox" ng-model="next.checked"></td>
                 <td><div class="tdSingleLine">{{next.status}}</div></td>
                 <td><div class="tdSingleLine">{{next.location}}</div></td>
                 <td><div class="tdSingleLine">{{next.type}}</div></td>
@@ -100,7 +101,6 @@
                 <td><div class="tdSingleLine">{{next.createdBy}}</div></td>
                 <td><div class="tdSingleLine">{{next.createdAt}}</div></td>
                 <td><div class="tdSingleLine">{{next.program}}</div></td>
-                <td><input type="checkbox" ng-model="next.checked"></td>
             </tr>
             </tbody>
         </table>
