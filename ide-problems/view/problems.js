@@ -11,11 +11,15 @@
  */
 angular.module('problems', [])
     .controller('ProblemsController', ['$scope', '$http', function ($scope, $http) {
+        $scope.allProblems = [];
         $scope.selectAll = false;
+        $scope.searchText = null;
+        $scope.problemsList = [];
 
         function refreshList() {
             $http.get('../../../ops/problems').then(function(response) {
-                $scope.problemsList = response.data;
+                $scope.allProblems = response.data;
+                $scope.problemsList = $scope.allProblems;
             });
             $scope.selectAll = false;
         }
@@ -34,9 +38,32 @@ angular.module('problems', [])
             return selectedIds;
         }
 
+        function containsSearchText(problem) {
+            if ($scope.searchText) {
+                return problem.location.toLowerCase().includes($scope.searchText.toLowerCase()) ||
+                    problem.type.toLowerCase().includes($scope.searchText.toLowerCase()) ||
+                    problem.line.toLowerCase().includes($scope.searchText.toLowerCase()) ||
+                    problem.column.toLowerCase().includes($scope.searchText.toLowerCase()) ||
+                    problem.symbol.toLowerCase().includes($scope.searchText.toLowerCase()) ||
+                    problem.expected.toLowerCase().includes($scope.searchText.toLowerCase()) ||
+                    problem.createdAt.toLowerCase().includes($scope.searchText.toLowerCase()) ||
+                    problem.createdBy.toLowerCase().includes($scope.searchText.toLowerCase()) ||
+                    problem.category.toLowerCase().includes($scope.searchText.toLowerCase()) ||
+                    problem.module.toLowerCase().includes($scope.searchText.toLowerCase()) ||
+                    problem.source.toLowerCase().includes($scope.searchText.toLowerCase()) ||
+                    problem.program.toLowerCase().includes($scope.searchText.toLowerCase()) ||
+                    problem.status.toLowerCase().includes($scope.searchText.toLowerCase());
+            }
+            return true;
+        }
+
         this.refresh = function () {
             refreshList();
         }
+
+        $scope.search = function() {
+            $scope.problemsList = $scope.allProblems.filter(e => containsSearchText(e));
+        };
 
         $scope.checkAll = function() {
             angular.forEach($scope.problemsList, function (problem) {
@@ -46,7 +73,8 @@ angular.module('problems', [])
 
         $scope.updateStatus = function(status) {
             $http.post('../../../ops/problems/update/' + status, filterSelectedIds()).then(function(response) {
-                $scope.problemsList = response.data;
+                $scope.allProblems = response.data;
+                $scope.problemsList = $scope.allProblems;
                 $scope.selectAll = false;
             });
         };
@@ -65,6 +93,7 @@ angular.module('problems', [])
 
         $scope.clear = function() {
             $http.delete('../../../ops/problems/clear').success(function () {
+                $scope.allProblems = [];
                 $scope.problemsList = [];
                 $scope.selectAll = false;
             });
