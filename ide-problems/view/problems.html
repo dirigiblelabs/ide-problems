@@ -39,8 +39,9 @@
 <div class="tableFixHead">
     <div class="row bg-default navbar navbar-fixed-top">
         <div class="col-md-1">
-            <button class="btn btn-default preview-button" type="button" ng-click="$apply()">
-                <i class="fa fa-refresh"></i></button>
+            <button class="btn btn-default preview-button" type="button" ng-click="problems.refresh()">
+                <i class="fa fa-refresh"></i>
+            </button>
         </div>
         <div class="col-md-1">
             <button class="btn btn-default preview-button" type="button" ng-click="updateStatus('IGNORED')">Mark as Ignored</button>
@@ -49,16 +50,16 @@
             <button class="btn btn-default preview-button" type="button" ng-click="updateStatus('SOLVED')">Mark as Solved</button>
         </div>
         <div class="col-md-1">
-            <button class="btn btn-default preview-button" type="button" ng-click="deleteSelected()">Delete selected</button>
+            <button class="btn btn-default preview-button" type="button" ng-click="deleteSelected()">Delete Selected</button>
         </div>
         <div class="col-md-1">
-            <button class="btn btn-default preview-button" type="button" ng-click="deleteByStatus('SOLVED')">Delete solved</button>
+            <button class="btn btn-default preview-button" type="button" ng-click="deleteByStatus('SOLVED')">Delete Solved</button>
         </div>
         <div class="col-md-1">
-            <button class="btn btn-default preview-button" type="button" ng-click="deleteByStatus('IGNORED')">Delete ignored</button>
+            <button class="btn btn-default preview-button" type="button" ng-click="deleteByStatus('IGNORED')">Delete Ignored</button>
         </div>
         <div class="col-md-1">
-            <button class="btn btn-default preview-button" type="button" ng-click="clear()">Delete all</button>
+            <button class="btn btn-default preview-button" type="button" ng-click="clear()">Delete All</button>
         </div>
     </div>
     <div id="row" style="padding-top: 30px; padding-bottom: 20px">
@@ -78,6 +79,7 @@
                 <th>Source</th>
                 <th>Program</th>
                 <th>Status</th>
+                <th><input type="checkbox" ng-model="selectAll" ng-click="checkAll()"></th>
             </tr>
             </thead>
             <tbody>

@@ -11,16 +11,18 @@
  */
 angular.module('problems', [])
     .controller('ProblemsController', ['$scope', '$http', function ($scope, $http) {
+        $scope.selectAll = false;
 
-        $http.get('../../../ops/problems').then(function(response) {
-            $scope.problemsList = response.data;
-        });
-
-        this.refresh = function () {
-            $route.reload()
+        function refreshList() {
+            $http.get('../../../ops/problems').then(function(response) {
+                $scope.problemsList = response.data;
+            });
+            $scope.selectAll = false;
         }
 
-        $scope.updateStatus = function(status) {
+        refreshList();
+
+        function filterSelectedIds() {
             let selectedIds = [];
             $scope.problemsList.filter(
                 function (problem) {
@@ -29,31 +31,43 @@ angular.module('problems', [])
                     }
                 }
             );
-            $http.post('../../../ops/problems/update/' + status, selectedIds).then(function(response) {
+            return selectedIds;
+        }
+
+        this.refresh = function () {
+            refreshList();
+        }
+
+        $scope.checkAll = function() {
+            angular.forEach($scope.problemsList, function (problem) {
+                problem.checked = $scope.selectAll;
+            });
+        };
+
+        $scope.updateStatus = function(status) {
+            $http.post('../../../ops/problems/update/' + status, filterSelectedIds()).then(function(response) {
                 $scope.problemsList = response.data;
+                $scope.selectAll = false;
             });
         };
 
         $scope.deleteByStatus = function(status) {
-            $http.delete('../../../ops/problems/delete/' + status);
+            $http.delete('../../../ops/problems/delete/' + status).success(function () {
+                refreshList();
+            });
         }
 
         $scope.deleteSelected = function() {
-            let selectedIds = [];
-            $scope.problemsList.filter(
-                function (problem) {
-                    if (problem.checked) {
-                        selectedIds.push(problem.id)
-                    }
-                }
-            );
-            $http.post('../../../ops/problems/delete/selected', selectedIds).then(function(response) {
-                $scope.problemsList = response.data;
+            $http.post('../../../ops/problems/delete/selected', filterSelectedIds()).success(function () {
+                refreshList();
             });
         }
 
         $scope.clear = function() {
-            $http.delete('../../../ops/problems/clear');
+            $http.delete('../../../ops/problems/clear').success(function () {
+                $scope.problemsList = [];
+                $scope.selectAll = false;
+            });
         }
     }]).config(function($sceProvider) {
     $sceProvider.enabled(false);
