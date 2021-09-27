@@ -60,32 +60,30 @@ angular.module('problems', [])
         };
 
         $scope.updateStatus = function (status) {
-            $http.post('/services/v4/ops/problems/update/' + status, filterSelectedIds()).then(function (response) {
-                $scope.allProblems = response.data;
-                $scope.problemsList = $scope.allProblems;
+            $http.post('/services/v4/ops/problems/update/' + status, filterSelectedIds()).then(function () {
+                fetchData();
                 $scope.selectAll = false;
             });
         };
 
         $scope.deleteByStatus = function (status) {
             $http.delete('/services/v4/ops/problems/delete/' + status).then(function () {
-                refreshList();
+                fetchData();
             });
         }
 
         $scope.deleteSelected = function () {
             $http.post('/services/v4/ops/problems/delete/selected', filterSelectedIds()).then(function () {
-                refreshList();
+                fetchData();
             });
         }
 
         $scope.clear = function () {
             $http.delete('/services/v4/ops/problems/clear').then(function () {
-                $scope.allProblems = [];
-                $scope.problemsList = [];
+                fetchData();
                 $scope.selectAll = false;
             });
         }
     }]).config(function ($sceProvider) {
-    $sceProvider.enabled(false);
-});
+        $sceProvider.enabled(false);
+    });
