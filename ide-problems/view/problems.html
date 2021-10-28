@@ -53,24 +53,31 @@
                 <input type="text" name="search" class="form-control" ng-model="searchText" placeholder="Search ... Date format: yyyy-MM-dd">
             </div>
             <div class="col">
-                <button class="btn btn-default preview-button" type="button" ng-click="updateStatus('IGNORED')">Mark as
-                    Ignored</button>
+                <button class="btn btn-default preview-button" type="button" ng-click="updateStatus(statusType)">Mark as</button>
             </div>
             <div class="col">
-                <button class="btn btn-default preview-button" type="button" ng-click="updateStatus('SOLVED')">Mark as
-                    Solved</button>
+                <button class="btn btn-default preview-button" type="button" ng-click="deleteByStatus(statusType)">Delete</button>
+            </div>
+            <div class="col" style="padding: 2px">
+                <div ng-switch="statusType">
+                    <div ng-switch-when="SOLVED">
+                        <i class="fa fa-check-square"></i>
+                    </div>
+
+                    <div ng-switch-when="IGNORED">
+                        <i class="fa fa-exclamation-triangle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <select name="singleSelect" ng-model="statusType">
+                    <option value="SOLVED">SOLVED</option>
+                    <option value="IGNORED">IGNORED</option>
+                </select>
             </div>
             <div class="col">
                 <button class="btn btn-default preview-button" type="button" ng-click="deleteSelected()">Delete
                     Selected</button>
-            </div>
-            <div class="col">
-                <button class="btn btn-default preview-button" type="button" ng-click="deleteByStatus('SOLVED')">Delete
-                    Solved</button>
-            </div>
-            <div class="col">
-                <button class="btn btn-default preview-button" type="button" ng-click="deleteByStatus('IGNORED')">Delete
-                    Ignored</button>
             </div>
             <div class="col">
                 <button class="btn btn-default preview-button" type="button" ng-click="clear()">Delete All</button>
@@ -102,7 +109,19 @@
                         <td><input type="checkbox" ng-model="next.checked"></td>
                         <td>{{$index + 1}}</td>
                         <td>
-                            <div class="tdSingleLine">{{next.status}}</div>
+                            <div ng-switch="next.status">
+                                <div ng-switch-when="ACTIVE">
+                                    <i style="padding-left: 15px" class="fa fa-times-circle"></i>
+                                </div>
+
+                                <div ng-switch-when="SOLVED">
+                                    <i style="padding-left: 15px" class="fa fa-check-square"></i>
+                                </div>
+
+                                <div ng-switch-when="IGNORED">
+                                    <i style="padding-left: 15px" class="fa fa-exclamation-triangle"></i>
+                                </div>
+                            </div>
                         </td>
                         <td>
                             <div class="tdSingleLine">{{next.location}}</div>

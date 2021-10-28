@@ -15,6 +15,7 @@ angular.module('problems', [])
         $scope.searchText = "";
         $scope.problemsList = [];
         $scope.limit = 25;
+        $scope.statusType = 'SOLVED';
 
         function fetchData() {
             $http.get('/services/v4/ops/problems/search', {params: {'condition': $scope.searchText, 'limit': $scope.limit}}).then(function (response) {
