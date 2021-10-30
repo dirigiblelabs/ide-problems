@@ -58,22 +58,30 @@
             <div class="col">
                 <button class="btn btn-default preview-button" type="button" ng-click="deleteByStatus(statusType)">Delete</button>
             </div>
-            <div class="col" style="padding: 2px">
-                <div ng-switch="statusType">
-                    <div ng-switch-when="SOLVED">
-                        <i class="fa fa-check-square"></i>
-                    </div>
+            <div class="col">
+                <div class="dropdown-subtle pull-right">
+                    <div class="btn-group btn-group-md" activiti-fix-dropdown-bug>
+                        <button type="button" class="btn btn-default dropdown-toggle" style="height:20px;" data-toggle="dropdown">
+                            <div ng-switch="statusType">
+                                <div ng-switch-when="SOLVED">
+                                    SOLVED <i class="fa fa-check-square"></i>
+                                </div>
 
-                    <div ng-switch-when="IGNORED">
-                        <i class="fa fa-exclamation-triangle"></i>
+                                <div ng-switch-when="IGNORED">
+                                    IGNORED <i class="fa fa-exclamation-triangle"></i>
+                                </div>
+                            </div>
+                        </button>
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a ng-click="statusType = 'SOLVED'">SOLVED <i class="fa fa-check-square"></i></a>
+                            </li>
+                            <li>
+                                <a ng-click="statusType = 'IGNORED'">IGNORED <i class="fa fa-exclamation-triangle"></i></a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <select name="singleSelect" ng-model="statusType">
-                    <option value="SOLVED">SOLVED</option>
-                    <option value="IGNORED">IGNORED</option>
-                </select>
             </div>
             <div class="col">
                 <button class="btn btn-default preview-button" type="button" ng-click="deleteSelected()">Delete
@@ -169,7 +177,8 @@
             </button>
         </div>
         <div style="padding: 5px">Selected: {{selectedRows}}/Total rows: {{totalRows}}
-            (Selected count is limited by the search terms)</div>
+            (Selected count is limited by the search terms)
+        </div>
     </div>
 </body>
 
