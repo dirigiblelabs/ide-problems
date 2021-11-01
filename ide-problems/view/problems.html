@@ -113,7 +113,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="next in problemsList track by $index">
+                    <tr ng-repeat="next in problemsList track by $index" ng-dblclick="openFile(next.location)">
                         <td><input type="checkbox" ng-model="next.checked"></td>
                         <td>{{$index + 1}}</td>
                         <td>

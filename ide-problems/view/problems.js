@@ -10,7 +10,20 @@
  * SPDX-License-Identifier: EPL-2.0
  */
 angular.module('problems', [])
-    .controller('ProblemsController', ['$scope', '$http', function ($scope, $http) {
+    .factory('$messageHub', [function () {
+        let messageHub = new FramesMessageHub();
+        let message = function (evtName, data) {
+            messageHub.post({ data: data }, evtName);
+        };
+        let on = function (topic, callback) {
+            messageHub.subscribe(callback, topic);
+        };
+        return {
+            message: message,
+            on: on
+        };
+    }])
+    .controller('ProblemsController', ['$scope', '$http', '$messageHub', function ($scope, $http, $messageHub) {
         $scope.selectAll = false;
         $scope.searchText = "";
         $scope.problemsList = [];
@@ -88,6 +101,22 @@ angular.module('problems', [])
                 fetchData();
                 $scope.selectAll = false;
             });
+        }
+
+        $scope.openFile = function (fullPath) {
+            const fullName = fullPath.split("/").pop();
+            const [name, extension] = fullName.split('.');
+
+            let msg = {
+                "file": {
+                    "name": name,
+                    "path": "/workspace" + fullPath,
+                    "type": "file",
+                    "contentType": extension,
+                    "label": fullName
+                }
+            };
+            $messageHub.message('ide-core.openEditor', msg);
         }
     }]).config(function ($sceProvider) {
         $sceProvider.enabled(false);
