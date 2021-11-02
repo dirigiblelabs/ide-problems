@@ -120,7 +120,6 @@ angular.module('problems', [])
         }
 
         $scope.showInfo = function(problem){
-            console.log("Clicked+ " + $scope.openedProblem);
             $scope.openedProblem = problem;
         }
 
