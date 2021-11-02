@@ -28,7 +28,7 @@ angular.module('problems', [])
         $scope.searchText = "";
         $scope.problemsList = [];
         $scope.limit = 25;
-        $scope.statusType = 'SOLVED';
+        $scope.openedProblem = {};
 
         function fetchData() {
             $http.get('/services/v4/ops/problems/search', {params: {'condition': $scope.searchText, 'limit': $scope.limit}}).then(function (response) {
@@ -118,6 +118,15 @@ angular.module('problems', [])
             };
             $messageHub.message('ide-core.openEditor', msg);
         }
+
+        $scope.showInfo = function(problem){
+            console.log("Clicked+ " + $scope.openedProblem);
+            $scope.openedProblem = problem;
+        }
+
+        $('#problemContent').on('hidden.bs.modal', function() {
+            $scope.openedProblem = {};
+        });
     }]).config(function ($sceProvider) {
         $sceProvider.enabled(false);
     });
