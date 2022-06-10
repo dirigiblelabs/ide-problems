@@ -9,7 +9,7 @@
   ~ SAP - initial API and implementation
   -->
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" ng-app="problems" ng-controller="ProblemsController as problems">
 
     <head>
         <meta charset="utf-8" />
@@ -54,7 +54,7 @@
 
     </head>
 
-    <body ng-app="problems" ng-controller="ProblemsController as problems">
+    <body>
         <div class="main-container">
             <fd-toolbar dg-type="solid" dg-size="cozy">
                 <h4 ng-if="problems.hasSelected()">Selected {{problems.getSelectedCount()}} of
